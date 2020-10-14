@@ -5,9 +5,9 @@ Created on Jun 2020 by Norus
 import os
 import time
 
-from requestsPluviaAPI import getToken
-from requestsPluviaAPI import getInfoFromAPI
-from requestsPluviaAPI import getFileFromAPI
+from src.requestsPluviaAPI import getToken
+from src.requestsPluviaAPI import getInfoFromAPI
+from src.requestsPluviaAPI import getFileFromAPI
 
 # -----------------------------------------------------------------------------
 # Global variables | Variáveis globais
@@ -23,6 +23,7 @@ global token
 def authenticatePluvia(username, password):
     global token
     token = getToken(username, password)
+    return token
 
 # -----------------------------------------------------------------------------
 # Get list of Precitation Data Source | Obter lista de Fonte de Dados de Precipitação

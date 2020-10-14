@@ -1,53 +1,35 @@
 import json
 import requests
+from pathlib import Path
+import datetime as dt
+from getpass import getpass
+from src.functionsPluviaAPI import *
 
-global url_base
-url_base = "https://pluvia.app"
+user = input("Usuário: ")
+psswd = getpass("Senha: ")
 
-def auth_session():
-    
+token = authenticatePluvia(user, psswd)
 
-    url = url_base + "/api/token"
+maps = getIdsOfPrecipitationsDataSource()
+models = getIdsOfForecastModels()
 
-    headers = {
-        "content-type": "application/x-www-form-urlencoded"
-    }
+id_maps = [x["id"] for x in maps]
+id_models = [x["id"] for x in models]
 
+curr_day = dt.datetime.today()
 
-    data = {
-        "grant_type": "password",
-        "username" : "daniel.mazucanti",
-        "password" : "D4ni3lM@zucant1!"
-    }
+forecastdate = curr_day.strftime("%d/%m/%Y")
+form_dir = curr_day.strftime("%Y-%m-%d")
 
-    token_resp = requests.post(
-        url, headers=headers, data=data, verify=True)
-    token_json = token_resp.json()
-    token =  token_json["access_token"]
-    return token
+dir_download = Path('Arquivos/%s/' % form_dir)
+if not (dir_download.exists()):
+    Path.mkdir(dir_download)
 
+forecasts = getForecasts(forecastdate, id_maps,
+                         id_models, '', '', [curr_day.year], [])
 
-token = auth_session()
-
-url = url_base + "/api/valoresParametros/mapas"
-
-headers = {
-        'Authorization': 'Bearer ' + token,
-        "Content-Type": "application/json"
-    }
-
-mapas = requests.get(url, headers=headers, verify=True)
-mapas = mapas.json()
-for mapa in mapas:
-    with open('mapa%s.json' % mapa['id'], 'w') as m:
-        val = json.dumps(mapa)
-        m.write(val)
-
-url = url_base + "/api/valoresParametros/modelos"
-
-modelos = requests.get(url, headers=headers, verify=True)
-modelos = modelos.json()
-for modelo in modelos:
-    with open('modelo%s.json' % modelo['id'], 'w') as m:
-        val = json.dumps(modelo)
-        m.write(val)
+for forecast in forecasts:
+    downloadForecast(forecast['prevsId'], dir_download, forecast['nome'] + ' - ' + forecast['membro'] + ' - Prevs.zip')
+    downloadForecast(forecast['enaId'], dir_download, forecast['nome'] + ' - ' + forecast['membro'] + '- ENA.zip')
+    downloadForecast(forecast['vnaId'], dir_download, forecast['nome'] + ' - ' + forecast['membro'] + '- VNA.csv')
+    downloadForecast(forecast['strId'], dir_download, forecast['nome'] + ' - ' + forecast['membro'] + '- STR.zip')
