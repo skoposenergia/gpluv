@@ -30,6 +30,6 @@ forecasts = getForecasts(forecastdate, id_maps,
 
 for forecast in forecasts:
     downloadForecast(forecast['prevsId'], dir_download, forecast['nome'] + ' - ' + forecast['membro'] + ' - Prevs.zip')
-    downloadForecast(forecast['enaId'], dir_download, forecast['nome'] + ' - ' + forecast['membro'] + '- ENA.zip')
-    downloadForecast(forecast['vnaId'], dir_download, forecast['nome'] + ' - ' + forecast['membro'] + '- VNA.csv')
-    downloadForecast(forecast['strId'], dir_download, forecast['nome'] + ' - ' + forecast['membro'] + '- STR.zip')
+    # downloadForecast(forecast['enaId'], dir_download, forecast['nome'] + ' - ' + forecast['membro'] + '- ENA.zip')
+    # downloadForecast(forecast['vnaId'], dir_download, forecast['nome'] + ' - ' + forecast['membro'] + '- VNA.csv')
+    # downloadForecast(forecast['strId'], dir_download, forecast['nome'] + ' - ' + forecast['membro'] + '- STR.zip')
