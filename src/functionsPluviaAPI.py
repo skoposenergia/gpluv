@@ -5,9 +5,9 @@ Created on Jun 2020 by Norus
 import os
 import time
 
-from src.requestsPluviaAPI import getToken
-from src.requestsPluviaAPI import getInfoFromAPI
-from src.requestsPluviaAPI import getFileFromAPI
+from gpluv.src.requestsPluviaAPI import getToken
+from gpluv.src.requestsPluviaAPI import getInfoFromAPI
+from gpluv.src.requestsPluviaAPI import getFileFromAPI
 
 # -----------------------------------------------------------------------------
 # Global variables | Variáveis globais

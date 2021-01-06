@@ -1,9 +1,8 @@
-import json
-import requests
-from pathlib import Path
 import datetime as dt
 from getpass import getpass
-from src.functionsPluviaAPI import *
+from pathlib import Path
+
+from gpluv.src.functionsPluviaAPI import *
 
 user = input("Usuário: ")
 psswd = getpass("Senha: ")
@@ -13,7 +12,8 @@ id_models = []
 
 token = authenticatePluvia(user, psswd)
 
-precipitationDataSources = ["GEFS", "CFS", "ECMWF_ENS", "ONS", "ECMWF_ENS_EXT"]
+precipitationDataSources = ["GEFS", "ECMWF_ENS", "ONS", "ETA", "Prec. Zero"]
+specs = ["ENSEMBLE", "ENSEMBLE", "", "", ""]
 forecastModels = ['IA+SMAP']
 
 for precipitationDataSource in precipitationDataSources:
@@ -27,7 +27,7 @@ curr_day = dt.datetime.today()
 forecastdate = curr_day.strftime("%d/%m/%Y")
 form_dir = curr_day.strftime("%Y-%m-%d")
 
-dir_download = Path('Arquivos/%s/' % form_dir)
+dir_download = Path('entradas')
 if not (dir_download.exists()):
     Path.mkdir(dir_download)
 
@@ -35,8 +35,8 @@ forecasts = getForecasts(forecastdate, id_maps,
                          id_models, '', '', [curr_day.year], [])
 
 for forecast in forecasts:
-    downloadForecast(forecast['prevsId'], dir_download,
-                     forecast['nome'] + ' - ' + forecast['membro'] + ' - Prevs.zip')
+    # downloadForecast(forecast['prevsId'], dir_download,
+    #                  forecast['nome'] + ' - ' + forecast['membro'] + ' - Prevs.zip')
     downloadForecast(forecast['enaId'], dir_download,
                      forecast['nome'] + ' - ' + forecast['membro'] + '- ENA.zip')
     # downloadForecast(forecast['vnaId'], dir_download, forecast['nome'] + ' - ' + forecast['membro'] + '- VNA.csv')
