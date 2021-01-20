@@ -12,8 +12,8 @@ id_models = []
 
 token = authenticatePluvia(user, psswd)
 
-precipitationDataSources = ["GEFS", "ECMWF_ENS", "ONS", "ETA", "Prec. Zero"]
-specs = ["ENSEMBLE", "ENSEMBLE", "", "", ""]
+precipitationDataSources = ["ECMWF_ENS", "ECMWF_ENS_EXT"]
+specs = ["", ""]
 forecastModels = ['IA+SMAP']
 
 for precipitationDataSource in precipitationDataSources:
